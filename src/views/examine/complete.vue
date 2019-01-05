@@ -14,9 +14,9 @@
 		    
 		     <el-table-column label="状态">
 			      <template slot-scope="scope">
-			      	  <el-button type="primary" @click="handleEdit(scope.row)" plain>详情</el-button>
-				      <el-button type="success" v-if="scope.row.state == 1">已通过</el-button>
-				      <el-button type="danger"  v-if="scope.row.state == 2">未通过</el-button>
+			      	  <el-button size="mini" type="primary" @click="handleEdit(scope.row)" plain>详情</el-button>
+				      <el-button size="mini" type="success" v-if="scope.row.state == 1">已通过</el-button>
+				      <el-button size="mini" type="danger"  v-if="scope.row.state == 2">未通过</el-button>
 			      </template>
 			      
 		    </el-table-column>

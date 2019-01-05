@@ -55,7 +55,7 @@ export default {
      		this.$confirm('确认通过吗') 
 		     	.then(_ => {
 		     		 this.$http.post(this.URL+"/index.php/api/geek_qt/operation",{
-		     		 	state:state,id:data.id
+		     		 	state:state,id:data.id,uid:data.uid,type:data.type
 		     		 }).then((res)=>{
      		    	 if(res.data == 1){
      		    	 	this.goods.splice(index,1)
@@ -72,7 +72,7 @@ export default {
 		    this.$confirm('确认未通过吗') 
 		     	.then(_ => {
 			     		 this.$http.post(this.URL+"/index.php/api/geek_qt/operation",{
-			     		 	state:state,id:data.id
+			     		 	state:state,id:data.id,uid:data.uid,type:data.type
 			     		 }).then((res)=>{
 	     		    	 if(res.data == 1){
 	     		    	 	this.goods.splice(index,1)
@@ -88,7 +88,7 @@ export default {
 		 },
      handleEdit(row){
      	   var id=row.id
-     	   this.$router.push({path: '/form/details',query:{id:id}})
+     	   this.$router.push({path: '/examine/details',query:{id:id}})
      	   
      }
   }
