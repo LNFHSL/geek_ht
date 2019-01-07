@@ -18,7 +18,7 @@
     
     <el-table-column prop="stock" label="库存" sortable width="160"></el-table-column>
     
-     <el-table-column prop="date" label="时间" sortable width="160"></el-table-column>
+     <el-table-column prop="date" label="时间" sortable ></el-table-column>
     
      <el-table-column label="操作" width="240">
 	      <template slot-scope="scope">
@@ -77,7 +77,7 @@ export default {
      },
      handleEdit(row){
      	   var id=row.id
-     	   this.$router.push({path: '/example/edit',query:{id:id}})
+     	   this.$router.push({path: '/goods/edit',query:{id:id}})
      	   
      }
   }

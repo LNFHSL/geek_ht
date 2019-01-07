@@ -6,10 +6,10 @@
 	       <el-button type="primary" round v-if="state== 2" @click="switchs(state)">切换到未认证列表</el-button>
 	    </el-col >  
 	    <el-col :span="6">
-	    	<el-input v-if="state== 2" v-model="name" placeholder="请输入内容"></el-input>
+	    	<el-input v-if="state== 2" v-model="name" placeholder="请输入萌娃名称"></el-input>
 	    </el-col>
 	    <el-col :span="6">
-	    	<el-button v-if="state== 2" type="primary">主要按钮</el-button>
+	    	<el-button v-if="state== 2" type="primary" @click="search" >主要按钮</el-button>
 	    </el-col>
   	</el-row>
   	
@@ -18,9 +18,11 @@
         <el-table :data="meng_was" height="750" border style="width: 100%"  :default-sort = "{prop: 'name', order: 'ascending'}">
     	
 		    <el-table-column prop="headpic"  label="头像"  width="180">
+		    	
 		    	<template   slot-scope="scope">            
 			           <img :src="scope.row.headpic"  min-width="70" height="70" />
 			      </template>
+			      
 		    </el-table-column>
 		    	
 		    <el-table-column prop="name" label="萌娃的名称"    width="180"> </el-table-column>
@@ -29,9 +31,9 @@
 		    
 		    <el-table-column  prop="sex"  label="性别" sortable  width="180"></el-table-column>
 		    
-		    <el-table-column  prop="height"  label="身高" sortable  width="180"></el-table-column>
+		    <el-table-column  prop="height"  label="身高/cm" sortable  width="180"></el-table-column>
 		    
-		    <el-table-column  prop="weight"  label="体重" sortable  width="160"></el-table-column>
+		    <el-table-column  prop="weight"  label="体重/kg" sortable  width="160"></el-table-column>
 		    
 		     <el-table-column label="操作">
 			      <template slot-scope="scope">
@@ -44,8 +46,8 @@
 		    
 		     <el-table-column v-if="state== 2"  label="状态">
 		     	    <template slot-scope="scope">
-						<el-button  size="mini" type="success" v-if="scope.row.isAuth == 1">已通过</el-button>
-						<el-button  size="mini" type="danger"  v-if="scope.row.isAuth == 2">未通过</el-button>
+						<el-button size="mini" type="success" v-if="scope.row.isAuth == 1">已通过</el-button>
+						<el-button size="mini" type="danger"  v-if="scope.row.isAuth == 2">未通过</el-button>
 					</template>
 		     </el-table-column>
     
@@ -153,6 +155,17 @@ export default {
      		this.state=1
      		this.meng_wa()
   	}	
+     },
+     search(){
+     	if(this.name== ''){
+     		 this.$message({ message: '名称不能为空',type: 'warning'});
+     	}
+     	else{
+     	this.$http.post(this.URL+"/index.php/api/geek_qt/meng_wa_search",{name:this.name})
+        .then((res)=>{
+        	 this.meng_was=res.data
+        })
+      }
      }
      
   }

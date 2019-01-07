@@ -43,13 +43,19 @@
 		
 		<div>
 			<el-row><el-col :span="24"><div class="head">图片</div></el-col></el-row>
+			<el-row type="flex" class="row-bg" justify="space-around">
+			  <el-col :span="6"><div class="grid">门店照片</div></el-col>
+			  <el-col :span="6"><div class="grid">身份证正面</div></el-col>
+			  <el-col :span="6"><div class="grid">身份证反面</div></el-col>
+			  <el-col :span="6"><div class="grid">营业执照</div></el-col>
+			</el-row>
 			<el-row type="flex" class="row-bg" justify="space-around"  >
 				<el-col :span="6" v-for="item in list.imgs" align="center"><img class="img" :src="url+item.url"/></el-col>
 			</el-row>
 		</div>
 		<el-row>
-			<el-col :span="12"><el-button class='cg' type="success" @click="choice(list.id,1)">通过</el-button></el-col>
-			<el-col :span="12"><el-button type="danger"  @click="choice(list.id,2)">未通过</el-button></el-col>
+			<el-col :span="12"><el-button size="mini" class='cg' type="success" @click="choice(list.id,1)">通过</el-button></el-col>
+			<el-col :span="12"><el-button size="mini" type="danger"  @click="choice(list.id,2)">未通过</el-button></el-col>
 		</el-row>
 	</div>
 	
@@ -121,7 +127,7 @@ export default{
 
 </script>
 
-<style>
+<style scope>
 .head{font-size: 20px;margin-left: 30px;}
 .basic{margin-bottom: 10px;}
 .el-row{margin: 20px 0;}
@@ -129,6 +135,7 @@ export default{
 .xian{width: 100%;height: 1px;background: gainsboro;}
 .dz{color: blue;}
 .img{height: 200px;width: 200px;}
-.cg{float: right;margin-right:50px;width: 90px;}
-.tb_tp{font-size: 30px;margin-left:-10px ;margin-left: 40px;}
+.cg{float: right;margin-right:50px;width: 70px;}
+.tb_tp{font-size: 30px;margin-left:30px;}
+.grid{margin-left:58px;color: #636363;}
 </style>
