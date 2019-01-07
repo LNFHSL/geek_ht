@@ -17,7 +17,7 @@ import '@/permission' // permission control
 
 import axios from 'axios'
 //axios.defaults.URL='http://localhost/laravel/public'
-Vue.prototype.URL = 'http://localhost/laravel/public'
+Vue.prototype.URL = 'http://localhost/geek/public'
 Vue.prototype.$apiURL = axios.defaults.baseURL
 Vue.prototype.$http=axios 
 

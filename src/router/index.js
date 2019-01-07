@@ -25,6 +25,8 @@ export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
+  { path: '/headline/change', component: () => import('@/views/headline/change'), hidden: true },
+  { path: '/headline/addType', component: () => import('@/views/headline/addType'), hidden: true },
   
   {
     path: '/',
@@ -107,6 +109,46 @@ export const constantRouterMap = [
         component: () => import('@/views/form/details'),
         meta: { title: '详情', icon: 'wc' },
         hidden: true
+      }
+    ]
+  },
+  { // 头条管理
+    path: '/headline',
+    component: Layout,
+    redirect: '/headline',
+    name: 'headline',
+    meta: { title: '头条管理', icon: 'example' },
+    children: [
+      {
+        path: 'add',
+        name: 'add',
+        component: () => import('@/views/headline/add'),
+        meta: { title: '添加头条', icon: 'tj' }
+      },
+      {
+        path: 'headline',
+        name: 'headline',
+        component: () => import('@/views/headline/index'),
+        meta: { title: '头条', icon: 'tt' }
+      },
+      {
+        path: 'type',
+        name: 'nested',
+        component: () => import('@/views/headline/type'),
+        meta: { title: '分类', icon: 'fl' }
+      }
+    ]
+  },
+  
+  {
+    path:'/notice',
+    component:Layout,
+    children:[
+      {
+        path: 'type',
+        name: '通告管理',
+        component: () => import('@/views/notice/type'),
+        meta: {title:'通告活动类型管理',icon: 'fl'}
       }
     ]
   },

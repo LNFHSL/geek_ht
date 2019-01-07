@@ -25,17 +25,17 @@
 			}
 		},
 		created(){
-			this.$http.post(this.URL+"/index.php/api/geek_qt/meng_wa",{
+			this.$http.post(this.URL+"/index.php/api/geek_qt/meng_wa_xq",{
 				id:this.$route.query.id
 			}).then((res)=>{
-				console.log(res.data[0])
-				if(res.data[0]['sex']==1){
-	    	    		res.data[0]['sex']='男'
+				console.log(res.data)
+				if(res.data['sex']==1){
+	    	    		res.data['sex']='男'
 	    	    	}
-	    	    	else if(res.data[0]['sex']==2){
-	    	    		res.data[0]['sex']='女'
+	    	    	else if(res.data['sex']==2){
+	    	    		res.data['sex']='女'
 	    	    	}
-				this.children=res.data[0]
+				this.children=res.data
 			})
 			
 		},
