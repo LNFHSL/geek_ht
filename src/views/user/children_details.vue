@@ -63,16 +63,6 @@
 			this.$http.post(this.URL+"/index.php/api/geek_qt/meng_wa_xq",{
 				id:this.$route.query.id
 			}).then((res)=>{
-<<<<<<< HEAD
-				console.log(res.data)
-				if(res.data['sex']==1){
-	    	    		res.data['sex']='男'
-	    	    	}
-	    	    	else if(res.data['sex']==2){
-	    	    		res.data['sex']='女'
-	    	    	}
-				this.children=res.data
-=======
 				if(res.data.list['sex']==1){
 	    	    		res.data.list['sex']='男'
 	    	    	}
@@ -81,7 +71,6 @@
 	    	    	}
 				this.children=res.data.list
 				this.children_image=res.data.list_img
->>>>>>> f06f826d2a68f55599513529fee0f79e6cd1d2e7
 			})
 			
 		},
