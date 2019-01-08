@@ -82,33 +82,7 @@ export const constantRouterMap = [
       
     ]
   },
-  { // 头条管理
-    path: '/headline',
-    component: Layout,
-    redirect: '/headline',
-    name: 'headline',
-    meta: { title: '头条管理', icon: 'tt2' },
-    children: [
-      {
-        path: 'add',
-        name: 'add',
-        component: () => import('@/views/headline/add'),
-        meta: { title: '添加头条', icon: 'tj' }
-      },
-      {
-        path: 'headline',
-        name: 'headline',
-        component: () => import('@/views/headline/index'),
-        meta: { title: '头条', icon: 'tt' }
-      },
-      {
-        path: 'type',
-        name: 'nested',
-        component: () => import('@/views/headline/type'),
-        meta: { title: '分类', icon: 'fl' }
-      }
-    ]
-  },
+ 
   
   
    { //审核  
