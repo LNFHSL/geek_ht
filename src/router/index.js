@@ -27,7 +27,7 @@ export const constantRouterMap = [
 
   { path: '/headline/change', component: () => import('@/views/headline/change'), hidden: true },
   { path: '/headline/addType', component: () => import('@/views/headline/addType'), hidden: true },
-
+  { path: '/baby/detail', component: () => import('@/views/baby/detail'), hidden: true },
   {
     path: '/',
     component: Layout,
@@ -141,12 +141,31 @@ export const constantRouterMap = [
   {
     path: '/notice',
     component: Layout,
+    meta: { title: '通告管理', icon: 'tggl' },
     children: [
+      {
+        path: 'index',
+        name: '通告',
+        component: () => import('@/views/notice/index'),
+        meta: { title: '通告', icon: 'tg' }
+      },
       {
         path: 'type',
         name: '通告管理',
         component: () => import('@/views/notice/type'),
-        meta: { title: '通告活动类型管理', icon: 'fl' }
+        meta: { title: '活动类型管理', icon: 'fl' }
+      }
+    ]
+  },
+  {
+    path: '/baby',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '萌娃推荐',
+        component: () => import('@/views/baby/index'),
+        meta: { title: '萌娃推荐', icon: 'recommend' }
       }
     ]
   },
