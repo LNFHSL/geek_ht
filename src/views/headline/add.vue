@@ -17,9 +17,9 @@
         />
       </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="24" class="tips">一级分类</el-col>
-      <el-col :span="24">
+    <el-row :gutter="200">
+      <el-col :span="10">
+        <div class="tips">一级分类</div>
         <el-select v-model="value1" placeholder="请选择" @change="checkSecondType">
           <el-option
             v-for="item in headlineFirstType"
@@ -29,10 +29,22 @@
           />
         </el-select>
       </el-col>
+      <el-col :span="12">
+        <div class="tips">头条封面</div>
+        <el-upload
+          class="avatar-uploader"
+          :action="action"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+      </el-col>
     </el-row>
-    <el-row>
-      <el-col :span="24" class="tips">二级分类</el-col>
-      <el-col :span="24">
+    <el-row >
+      <el-col :span="24" id="sType">
+        <div class="tips">二级分类</div>
         <el-select v-model="value2" placeholder="请选择">
           <el-option
             v-for="item in secondType"
@@ -57,6 +69,7 @@ export default {
 
   data() {
     return {
+      action:this.URL + '/index.php/api/user/uploadJoinPic',
       url: this.URL,
       img: '',
       imageUrl: '',
@@ -102,10 +115,11 @@ export default {
       } else if (this.content > 5000) {
         this.$message.warning('内容不超过5000个字符')
       } else {
-        if (this.title != '' && this.content != '' && this.value2 != '') {
+        if (this.title != '' && this.content != '' && this.value2 != '' && this.img!='') {
           this.$http.post(this.URL + '/index.php/api/headline/addHeadline', {
             title: this.title,
             content: this.content,
+            cover:this.img,
             type: this.value2
           }).then((res) => {
             if (res.data.state == 1) {
@@ -115,7 +129,7 @@ export default {
             }
           })
         } else {
-          this.$message.warning('标题、内容和分类不能为空！')
+          this.$message.warning('标题、内容、分类和封面不能为空！')
         }
       }
     },
@@ -135,7 +149,24 @@ export default {
           n++
         }
       }
-    }
+    },
+    handleAvatarSuccess(res, file) {
+      console.log([res, file])
+      this.img=res.url,
+      this.imageUrl = this.URL+res.url
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
   }
 }
 </script>
@@ -158,5 +189,31 @@ color: #636363;
 .button{float: right;}
   .editRow{
     margin-bottom: 90px;
+  }
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+  #sType{
+    margin-top: -100px;
   }
 </style>

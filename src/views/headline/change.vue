@@ -12,39 +12,45 @@
     </el-row>
     <el-row>
       <el-col :span="12">
-        <el-col :span="24" class="tips">发布日期</el-col>
-        <el-col :span="12"><el-input v-model="date" placeholder="2019-01-01" clearable/></el-col>
+        <el-row>
+          <el-col :span="24" class="tips">发布日期</el-col>
+          <el-col :span="12"><el-input v-model="date" placeholder="2019-01-01" clearable/></el-col>
+          <el-col :span="24" class="tips">具体时间</el-col>
+          <el-col :span="12"><el-input v-model="time" placeholder="14：15：20" clearable/></el-col>
+          <el-col :span="24">
+            <div class="tips">一级分类</div>
+            <el-select v-model="value1" placeholder="请选择" @change="checkSecondType">
+              <el-option
+                v-for="item in headlineFirstType"
+                :key="item.id"
+                :label="item.typeName"
+                :value="item.id"
+              />
+            </el-select>
+          </el-col>
+          <el-col :span="24" class="up">
+            <div class="tips">二级分类</div>
+            <el-select v-model="value2" placeholder="请选择">
+              <el-option
+                v-for="item in secondType"
+                :key="item.id"
+                :label="item.typeName"
+                :value="item.id"/>
+            </el-select>
+          </el-col>
+        </el-row>
       </el-col>
-    </el-row>
-    <el-row >
       <el-col :span="12">
-        <el-col :span="24" class="tips">具体时间</el-col>
-        <el-col :span="12"><el-input v-model="time" placeholder="14：15：20" clearable/></el-col>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24" class="tips">一级分类</el-col>
-      <el-col :span="24">
-        <el-select v-model="value1" placeholder="请选择" @change="checkSecondType">
-          <el-option
-            v-for="item in headlineFirstType"
-            :key="item.id"
-            :label="item.typeName"
-            :value="item.id"
-          />
-        </el-select>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="24" class="tips">二级分类</el-col>
-      <el-col :span="24">
-        <el-select v-model="value2" placeholder="请选择">
-          <el-option
-            v-for="item in secondType"
-            :key="item.id"
-            :label="item.typeName"
-            :value="item.id"/>
-        </el-select>
+        <div class="tips">头条封面</div>
+        <el-upload
+          :action="action"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload"
+          class="avatar-uploader">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"/>
+        </el-upload>
       </el-col>
     </el-row>
     <el-row>
@@ -62,6 +68,7 @@ Quill.register('modules/ImageExtend', ImageExtend)
 export default {
   data() {
     return {
+      action: this.URL + '/index.php/api/user/uploadJoinPic',
       id: '',
       title: '',
       content: '',
@@ -69,6 +76,8 @@ export default {
       time: '',
       tId: '',
       url: this.URL,
+      img: '',
+      imageUrl: '',
       stock: 1,
       value1: '',
       value2: '',
@@ -111,6 +120,8 @@ export default {
         this.date = res.data[0].date
         this.time = res.data[0].time
         this.tId = res.data[0].type
+        this.img = res.data[0].cover
+        this.imageUrl = this.URL + res.data[0].cover
         this.showHeadlineType()
       })
     },
@@ -128,6 +139,7 @@ export default {
         this.date == '' ||
         this.time == '' ||
         this.title == '' ||
+        this.img == '' ||
         this.value2 == '') {
         this.$message.warning('内容不能为空')
       } else {
@@ -137,6 +149,7 @@ export default {
           content: this.content,
           date: this.date,
           time: this.time,
+          cover: this.img,
           type: this.value2
         }).then((res) => {
           if (res.data.state == 1) {
@@ -172,6 +185,23 @@ export default {
           n++
         }
       }
+    },
+    handleAvatarSuccess(res, file) {
+      console.log([res, file])
+      this.img = res.url
+      this.imageUrl = this.URL + res.url
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     }
   }
 }
@@ -180,8 +210,8 @@ export default {
 .app{
 	margin: 0 100px;
 }
-.el-row{
-	margin: 20px 0;
+.el-col{
+	margin: 8px 0;
 }
 .tips{
 margin-bottom: 5px;
@@ -194,4 +224,27 @@ color: #636363;
    height: 100px;
    width: 100px;
  }
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
 </style>
