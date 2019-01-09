@@ -13,7 +13,7 @@
       <el-table-column align="center" prop="id" label="ID" width="95"/>
       <el-table-column align="center" label="图标" width="100">
         <template slot-scope="scope">
-          <img :src="scope.row.url" width="60" height="60"/>
+          <img :src="scope.row.url" width="60" height="60">
         </template>
       </el-table-column>
       <el-table-column label="分类名" prop="name" align="center"/>
@@ -73,7 +73,7 @@ export default {
 
   data() {
     return {
-      url:this.URL,
+      url: this.URL,
       fType: [],
       sType: [],
       secondType: [],
@@ -94,10 +94,10 @@ export default {
   },
   methods: {
     showType() {
-      this.$http.post(this.URL+'/index.php/api/notice/noticeTypeShow').then((res)=>{
+      this.$http.post(this.URL + '/index.php/api/notice/noticeTypeShow').then((res) => {
         this.fType = res.data.fType
-        for(var n=0;n<this.fType.length;n++){
-          this.fType[n]['url']=this.URL+this.fType[n]['url']
+        for (var n = 0; n < this.fType.length; n++) {
+          this.fType[n]['url'] = this.URL + this.fType[n]['url']
         }
       })
     },
