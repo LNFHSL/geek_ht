@@ -82,12 +82,6 @@ export const constantRouterMap = [
 
     ]
   },
-<<<<<<< HEAD
- 
-  
-  
-   { //审核  
-=======
   { // 头条管理
     path: '/headline',
     component: Layout,
@@ -117,7 +111,6 @@ export const constantRouterMap = [
   },
 
   { // 审核
->>>>>>> 931f64d43f88c8da9d20e25dbd9dfe84aa4a86c1
     path: '/examine',
     component: Layout,
     redirect: '/examine/index',
