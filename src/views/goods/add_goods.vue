@@ -78,7 +78,7 @@ export default {
             name: 'file',
             action: this.URL + '/index.php/api/user/uploadJoinPic',
             response: (res) => {
-              return this.URL + res.url
+              return  res.url
             }
           },
           toolbar: {

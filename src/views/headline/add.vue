@@ -90,7 +90,7 @@ export default {
             name: 'file',
             action: this.URL + '/index.php/api/user/uploadJoinPic',
             response: (res) => {
-              return this.URL + res.url
+              return res.url
             }
           },
           toolbar: {
@@ -153,7 +153,7 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log([res, file])
       this.img=res.url,
-      this.imageUrl = this.URL+res.url
+      this.imageUrl = res.url
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
