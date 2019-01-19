@@ -139,25 +139,6 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '/notice',
-    component: Layout,
-    meta: { title: '通告管理', icon: 'tggl' },
-    children: [
-      {
-        path: 'index',
-        name: '通告',
-        component: () => import('@/views/notice/index'),
-        meta: { title: '通告', icon: 'tg' }
-      },
-      {
-        path: 'type',
-        name: '通告管理',
-        component: () => import('@/views/notice/type'),
-        meta: { title: '活动类型管理', icon: 'fl' }
-      }
-    ]
-  },
-  {
     path: '/baby',
     component: Layout,
     children: [
@@ -185,12 +166,84 @@ export const constantRouterMap = [
 
     ]
   },
+  
+  
+
+  // { path: '*', redirect: '/404', hidden: true }
+]
+
+export default new Router({
+  // mode: 'history', //后端支持可开
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
+})
+
+
+
+export const asyncRouterMap = [
+  {
+    path: '/notice',
+    component: Layout,
+    meta: { title: '通告管理', icon: 'tggl',roles:['admin'] },
+    children: [
+      {
+        path: 'index',
+        name: '通告',
+        component: () => import('@/views/notice/index'),
+        meta: { title: '通告', icon: 'tg',roles:['admin'] }
+      },
+      {
+        path: 'type',
+        name: '通告管理',
+        component: () => import('@/views/notice/type'),
+        meta: { title: '活动类型管理', icon: 'fl',roles:['admin'] }
+      }
+    ]
+  },
+  { // 设置
+    path: '/set',
+    component: Layout,
+    redirect: '/set/index',
+    name: 'Set',
+    meta: { title: '设置', icon: 'sz', roles: ['admin','editor'] },
+    children: [
+      { // 系统管理
+        path: '/set/system',
+	      component: Layout,
+	    name: 'System',
+	    redirect: '/set/system/site_title',
+	    name: 'System',
+	    meta: { title: '系统设置', icon: 'xtgl', roles: ['admin','editor'] },
+	    children: [
+		      {
+		        path: 'site_title',
+		        name: 'Site_title',
+		        component: () => import('@/views/set/system/site_title'),
+		        meta: { title: '站点标题', icon: 'zd' }
+		      },
+		      {
+		        path: 'vip_price',
+		        name: 'Vip_price',
+		        component: () => import('@/views/set/system/Vip_price'),
+		        meta: { title: 'vip管理', icon: 'vip' }
+		      }
+		    ]
+	  },
+      {
+        path: 'index',
+        name: 'Index',
+        component: () => import('@/views/set/index'),
+        meta: { title: '幻灯片管理', icon: 'lb3' }
+      }
+
+    ]
+  },
   { // 用户管理
     path: '/user',
     component: Layout,
     redirect: '/user/children',
     name: 'User',
-    meta: { title: '用户管理', icon: 'user' },
+    meta: { title: '用户管理', icon: 'user', roles: ['client']  },
     children: [
       {
         path: 'children',
@@ -220,50 +273,7 @@ export const constantRouterMap = [
 
     ]
   },
-  { // 设置
-    path: '/set',
-    component: Layout,
-    redirect: '/set/index',
-    name: 'Set',
-    meta: { title: '设置', icon: 'sz' },
-    children: [
-      { // 系统管理
-        path: '/set/system',
-	      component: Layout,
-	    name: 'System',
-	    redirect: '/set/system/site_title',
-	    name: 'System',
-	    meta: { title: '系统设置', icon: 'xtgl' },
-	    children: [
-		      {
-		        path: 'site_title',
-		        name: 'Site_title',
-		        component: () => import('@/views/set/system/site_title'),
-		        meta: { title: '站点标题', icon: 'zd' }
-		      },
-		      {
-		        path: 'vip_price',
-		        name: 'Vip_price',
-		        component: () => import('@/views/set/system/Vip_price'),
-		        meta: { title: 'vip管理', icon: 'vip' }
-		      }
-		    ]
-	  },
-      {
-        path: 'index',
-        name: 'Index',
-        component: () => import('@/views/set/index'),
-        meta: { title: '幻灯片管理', icon: 'lb3' }
-      }
-
-    ]
-  },
-
-  { path: '*', redirect: '/404', hidden: true }
+ 
+  
+  // { path: '*', redirect: '/404', hidden: true }
 ]
-
-export default new Router({
-  // mode: 'history', //后端支持可开
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-})
