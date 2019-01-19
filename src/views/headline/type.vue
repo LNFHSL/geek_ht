@@ -15,6 +15,7 @@
       <el-table-column label="子分类" align="center" width="250">
         <template slot-scope="scope">
           <el-button type="text" @click="checkSecondType(scope.row.id)">查看子分类</el-button>
+          
           <el-dialog :visible.sync="dialogTableVisible">
             <el-table :data="sType" style="text-align: left">
               <el-table-column property="id" label="id" width="150"/>
@@ -26,6 +27,7 @@
               </el-table-column>
             </el-table>
           </el-dialog>
+          
         </template>
       </el-table-column>
       <el-table-column align="center" width="150" label="管理" >
@@ -94,7 +96,11 @@ export default {
       })
     },
     delType(id) {
-      this.$confirm('确认删除该分类吗').then(_ => {
+      this.$confirm('确认删除该分类吗', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(_ => {
         this.$http.post(this.URL + '/index.php/api/headline/delHeadlineType', {
           id: id
         }).then((res) => {

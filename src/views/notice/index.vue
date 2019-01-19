@@ -111,7 +111,7 @@ export default {
         this.total = res.data.total
         this.currentPage = res.data.current_page
         for (var n = 0; n < this.msg.length; n++) {
-          this.msg[n]['thumb'] = this.URL + this.msg[n]['thumb']
+          this.msg[n]['thumb'] =this.msg[n]['thumb']
           if (this.msg[n]['is_pay'] == 0) {
             this.msg[n]['is_pay'] = '未支付'
           }
@@ -144,7 +144,7 @@ export default {
         this.total = res.data.total
         this.currentPage = res.data.current_page
         for (var n = 0; n < this.msg.length; n++) {
-          this.msg[n]['thumb'] = this.URL + this.msg[n]['thumb']
+          this.msg[n]['thumb'] =this.msg[n]['thumb']
           if (this.msg[n]['is_pay'] == 0) {
             this.msg[n]['is_pay'] = '未支付'
           }
@@ -165,7 +165,7 @@ export default {
           this.total = res.data.total
           this.currentPage = res.data.current_page
           for (var n = 0; n < this.msg.length; n++) {
-            this.msg[n]['thumb'] = this.URL + this.msg[n]['thumb']
+            this.msg[n]['thumb'] =this.msg[n]['thumb']
             if (this.msg[n]['is_pay'] == 0) {
               this.msg[n]['is_pay'] = '未支付'
             }
@@ -190,10 +190,12 @@ export default {
       })
     },
     showJoinBaby(id) {
+    	this.dialog = true
       this.baby = null
       this.$http.post(this.URL + '/index.php/api/notice/showJoinBaby', {
         id: id
       }).then((res) => {
+      	
         if (res.data != '') {
           this.baby = res.data
           for (var n = 0; n < this.baby.length; n++) {
@@ -204,7 +206,7 @@ export default {
             }
           }
         }
-        this.dialog = true
+        
       })
     },
     delNotice(id) {
@@ -224,7 +226,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scope>
   .block{
     text-align: center;
     margin: 20px 0 20px 0;

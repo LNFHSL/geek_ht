@@ -6,7 +6,11 @@
       border
       fit
       highlight-current-row>
-      <el-table-column align="center" prop="id" label="ID" width="95"/>
+      <el-table-column align="center"  label="图片" width="180">
+	      <template   slot-scope="scope">            
+		           <img :src="scope.row.cover"  min-width="70" height="70" />
+				</template>
+			</el-table-column>
       <el-table-column label="标题" prop="title" align="center"/>
       <el-table-column label="发布日期" prop="date" width="110" align="center"/>
       <el-table-column label="具体时间" prop="time" width="110" align="center"/>
@@ -19,12 +23,12 @@
     </el-table>
     <div class="block">
       <el-pagination
-        :page-size="10"
-        :total="total"
-        :current-page.sync="currentPage"
-        layout="prev, pager, next, jumper"
-        @current-change="handleCurrentChange"
-      />
+			  :page-size="goods_page.per_page"
+			   layout="prev, pager, next"
+			  :total="goods_page.total"
+			  :current-page.sync="goods_page.current_page"
+			  @current-change="handleCurrentChange">
+			</el-pagination>
     </div>
   </div>
 </template>
@@ -35,6 +39,7 @@ export default {
   data() {
     return {
       msg: [],
+      goods_page:[],
       lastPage: 0,
       total: 0,
       currentPage: 0
@@ -47,15 +52,18 @@ export default {
     showHeadline() {
       this.$http.post(this.URL + '/index.php/api/headline/headlinePage').then((res) => {
         this.msg = res.data.data
-        this.total = res.data.total
-        this.currentPage = res.data.current_page
+        this.goods_page=res.data
       })
     },
     changeHeadline(e) {
       this.$router.push({ path: '/headline/change', query: { id: e }})
     },
     delHeadline(e) {
-      this.$confirm('确定删除该条数据吗？').then(_ => {
+      this.$confirm('确定删除该条数据吗？', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(_ => {
         this.$http.post(this.URL + '/index.php/api/headline/delHeadline', {
           id: e
         }).then((res) => {
@@ -68,17 +76,20 @@ export default {
         })
       }).catch(() => {})
     },
-    handleCurrentChange() {
-      this.$http.post(this.URL + '/index.php/api/headline/headlinePage?page=' + this.currentPage).then((res) => {
-        this.msg = res.data.data
-        this.total = res.data.total
-        this.currentPage = res.data.current_page
-      })
-    }
+     handleCurrentChange(){
+     //	console.log(this.goods_page.current_page)
+     	this.$http.post(this.URL+"/index.php/api/headline/headlinePage",{
+     		page:this.goods_page.current_page
+     	})
+     	.then((res)=>{
+     //   console.log(res.data.data)
+	        this.msg=res.data.data
+     	})
+     }
   }
 }
 </script>
-<style>
+<style scope>
   .block{
     text-align: center;
     margin: 20px 0 20px 0;

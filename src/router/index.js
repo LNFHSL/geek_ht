@@ -25,9 +25,9 @@ export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
-  { path: '/headline/change', component: () => import('@/views/headline/change'), hidden: true },
+  
   { path: '/headline/addType', component: () => import('@/views/headline/addType'), hidden: true },
-  { path: '/baby/detail', component: () => import('@/views/baby/detail'), hidden: true },
+  
   {
     path: '/',
     component: Layout,
@@ -106,11 +106,19 @@ export const constantRouterMap = [
         name: 'nested',
         component: () => import('@/views/headline/type'),
         meta: { title: '分类', icon: 'fl' }
-      }
+      },
+      {
+        path: 'change',
+        name: 'Change',
+        component: () => import('@/views/headline/change'),
+        hidden: true,
+        meta: { title: '分类', icon: 'fl' }
+      },
+      
     ]
   },
 
-  { // 审核
+  { // 加盟审核
     path: '/examine',
     component: Layout,
     redirect: '/examine/index',
@@ -138,7 +146,7 @@ export const constantRouterMap = [
       }
     ]
   },
-  {
+  {//通告管理
     path: '/notice',
     component: Layout,
     meta: { title: '通告管理', icon: 'tggl' },
@@ -154,18 +162,47 @@ export const constantRouterMap = [
         name: '通告管理',
         component: () => import('@/views/notice/type'),
         meta: { title: '活动类型管理', icon: 'fl' }
-      }
+      },
+      {
+        path: 'report',
+        name: '通告举报管理',
+        component: () => import('@/views/notice/report'),
+        meta: { title: '通告举报管理', icon: 'jb' }
+      },
+      
+      
+      
     ]
   },
-  {
-    path: '/baby',
+  {  //首页推荐
+    path: '/home',
     component: Layout,
+    meta: { title: '首页推荐', icon: 'sy2' },
     children: [
       {
         path: 'index',
+        name: 'Index',
+        component: () => import('@/views/home/index'),
+        meta: { title: '幻灯片管理', icon: 'lb3' }
+      },
+      {
+        path: 'baby',
         name: '萌娃推荐',
-        component: () => import('@/views/baby/index'),
+        component: () => import('@/views/home/baby'),
         meta: { title: '萌娃推荐', icon: 'recommend' }
+      },
+      {
+        path: 'Announcement',
+        name: '通告推荐',
+        component: () => import('@/views/home/Announcement'),
+        meta: { title: '通告推荐', icon: 'xlb' }
+      },
+      {
+        path: 'detail',
+        name: '萌娃详情',
+        component: () => import('@/views/home/detail'),
+        meta: { title: '萌娃详情', icon: 'xlb' },
+        hidden: true
       }
     ]
   },
@@ -227,34 +264,19 @@ export const constantRouterMap = [
     name: 'Set',
     meta: { title: '设置', icon: 'sz' },
     children: [
-      { // 系统管理
-        path: '/set/system',
-	      component: Layout,
-	    name: 'System',
-	    redirect: '/set/system/site_title',
-	    name: 'System',
-	    meta: { title: '系统设置', icon: 'xtgl' },
-	    children: [
-		      {
-		        path: 'site_title',
-		        name: 'Site_title',
-		        component: () => import('@/views/set/system/site_title'),
-		        meta: { title: '站点标题', icon: 'zd' }
-		      },
-		      {
-		        path: 'vip_price',
-		        name: 'Vip_price',
-		        component: () => import('@/views/set/system/Vip_price'),
-		        meta: { title: 'vip管理', icon: 'vip' }
-		      }
-		    ]
-	  },
       {
-        path: 'index',
-        name: 'Index',
-        component: () => import('@/views/set/index'),
-        meta: { title: '幻灯片管理', icon: 'lb3' }
-      }
+		path: 'site_title',
+		name: 'Site_title',
+		component: () => import('@/views/set/site_title'),
+		meta: { title: '站点标题', icon: 'zd' }
+	  },
+	  {
+		path: 'vip_price',
+		name: 'Vip_price',
+		component: () => import('@/views/set/Vip_price'),
+		meta: { title: 'vip管理', icon: 'vip' }
+	  },
+      
 
     ]
   },

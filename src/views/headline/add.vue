@@ -90,7 +90,7 @@ export default {
             name: 'file',
             action: this.URL + '/index.php/api/user/uploadJoinPic',
             response: (res) => {
-              return this.URL + res.url
+              return  res.url
             }
           },
           toolbar: {
@@ -124,6 +124,7 @@ export default {
           }).then((res) => {
             if (res.data.state == 1) {
               this.$message.success('发布成功!')
+              this.$router.go(0)
             } else {
               this.$message.error('发布失败！')
             }
@@ -153,7 +154,7 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log([res, file])
       this.img=res.url,
-      this.imageUrl = this.URL+res.url
+      this.imageUrl = res.url
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
@@ -170,7 +171,7 @@ export default {
   }
 }
 </script>
-<style type="text/css">
+<style type="text/css" scope>
 .app{
 	margin: 0 100px;
 }

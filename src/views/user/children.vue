@@ -15,12 +15,12 @@
   	
   	<el-row>
   	    <el-col :span="24">
-        <el-table :data="meng_was" height="750" border style="width: 100%"  :default-sort = "{prop: 'name', order: 'ascending'}">
+        <el-table :data="meng_was" height="580" border style="width: 100%"  :default-sort = "{prop: 'name', order: 'ascending'}">
     	
 		    <el-table-column prop="headpic"  label="头像"  width="180">
 		    	
 		    	<template   slot-scope="scope">            
-			           <img :src="scope.row.headpic"  min-width="70" height="70" />
+			           <img :src="scope.row.headpic"  min-width="68" height="68" />
 			      </template>
 			      
 		    </el-table-column>
@@ -54,7 +54,16 @@
         </el-table>	
         </el-col>
 	</el-row>
-
+      <div  class="fls">
+	    <el-pagination
+	    	v-if="state== 2"
+			  :page-size="goods_page.per_page"
+			   layout="prev, pager, next"
+			  :total="goods_page.total"
+			  :current-page.sync="goods_page.current_page"
+			  @current-change="handleCurrentChange">
+			</el-pagination>
+		</div> 
   </div>
 </template>
 
@@ -67,6 +76,7 @@ export default {
      state:1,
      url:this.url,
      meng_was:[],
+     goods_page:[],
      name:'',
     }
   },
@@ -76,7 +86,11 @@ export default {
   methods: {
      choice(index,data,state){
      	if(state==1){
-     		this.$confirm('确认通过吗') 
+     		this.$confirm('确认通过吗', '提示', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'success'
+			        }) 
 		     	.then(_ => {
 		     		 this.$http.post(this.URL+"/index.php/api/geek_qt/meng_wa_rz",{
 		     		 	state:state,id:data.id
@@ -93,7 +107,11 @@ export default {
 		      .catch(_ => {});
 		     }
 		  if(state==2){
-		    this.$confirm('确认未通过吗') 
+		    this.$confirm('确认未通过吗', '提示', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning'
+			        }) 
 		     	.then(_ => {
 			     		 this.$http.post(this.URL+"/index.php/api/geek_qt/meng_wa_rz",{
 			     		 	state:state,id:data.id
@@ -141,7 +159,9 @@ export default {
 	    	    	}
 	    	    }
 	    	    console.log(res.data)
-		 		this.meng_was=res.data
+			 		this.meng_was=res.data.data
+			 		this.goods_page=res.data
+		 		
 		 	})
      },
      
@@ -166,14 +186,29 @@ export default {
         	 this.meng_was=res.data
         })
       }
+     },
+     handleCurrentChange(){
+     //	console.log(this.goods_page.current_page)
+     	this.$http.post(this.URL+"/index.php/api/geek_qt/meng_wa_wc",{
+     		page:this.goods_page.current_page
+     	})
+     	.then((res)=>{
+     //   console.log(res.data.data)
+	        this.meng_was=res.data.data
+     	})
      }
      
   }
 }
 </script>
 
-<style type="text/css">
+<style type="text/css" scope>
 	.head{
 		margin-bottom: 20px;
+	}
+	.fls{
+		display: flex !important; 
+		justify-content: center !important;
+		z-index: 99;
 	}
 </style>

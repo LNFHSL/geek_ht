@@ -92,7 +92,7 @@ export default {
             name: 'file',
             action: this.URL + '/index.php/api/user/uploadJoinPic',
             response: (res) => {
-              return this.URL + res.url
+              return res.url
             }
           },
           toolbar: {
@@ -121,7 +121,7 @@ export default {
         this.time = res.data[0].time
         this.tId = res.data[0].type
         this.img = res.data[0].cover
-        this.imageUrl = this.URL + res.data[0].cover
+        this.imageUrl =res.data[0].cover
         this.showHeadlineType()
       })
     },
@@ -206,9 +206,9 @@ export default {
   }
 }
 </script>
-<style type="text/css">
+<style type="text/css" scope>
 .app{
-	margin: 0 100px;
+	margin: 0 60px;
 }
 .el-col{
 	margin: 8px 0;

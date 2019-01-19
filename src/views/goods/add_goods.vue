@@ -17,7 +17,7 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
           class="avatar-uploader">
-          <img v-if="imageUrl" :src="url+imageUrl" class="avatar">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"/>
         </el-upload>
       </el-col>
@@ -78,7 +78,8 @@ export default {
             name: 'file',
             action: this.URL + '/index.php/api/user/uploadJoinPic',
             response: (res) => {
-              return this.URL + res.url
+            	console.log(res.url)
+              return res.url
             }
           },
           toolbar: {
@@ -168,7 +169,7 @@ export default {
 
 }
 </script>
-<style type="text/css">
+<style type="text/css" scope>
 .app{
 	margin: 0 100px;
 }

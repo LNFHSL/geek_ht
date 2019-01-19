@@ -92,7 +92,7 @@
 	}
 </script>
 
-<style>
+<style scope>
 .app{
 	margin: 0 100px;
 }

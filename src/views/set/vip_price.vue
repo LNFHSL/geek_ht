@@ -14,9 +14,16 @@
 					<el-table :data="vip_data" border style="width: 100%">
 					   <el-table-column prop="name" label="名字" ></el-table-column>
 					   <el-table-column prop="price" label="价格/￥" ></el-table-column>
+					   <el-table-column  label="状态" >
+					   	    <template slot-scope="scope">
+								<el-button size="mini" type="success" v-if="scope.row.state == 1">售卖</el-button>
+								<el-button size="mini" type="danger"  v-if="scope.row.state == 2">下架</el-button>
+							</template>
+					   </el-table-column>
 					   <el-table-column label="操作" >
 					   	  <template slot-scope="scope">
 						        <el-button size="mini" type="danger" @click="deletes(scope.$index, scope.row)">删除</el-button>
+						        <el-button size="mini" type="warning" @click="Lower_shelf(scope.$index, scope.row)" v-if="scope.row.state == 1">下架</el-button>
 						  </template>
 					   </el-table-column>
 					</el-table>
@@ -39,14 +46,24 @@
 		<el-row class="xianshi" v-if="state ==2">
 			<el-col :span="24">
 				<template>
-					<el-table :data="user_data" border style="width: 100%">
+					<el-table :data="user_data" border style="width: 100%" >
 					   <el-table-column prop="username" label="用户名" ></el-table-column>
-					   <el-table-column prop="member" label="会员类型" ></el-table-column>
-					   <el-table-column label="时间" ></el-table-column>
+					   <el-table-column prop="name" label="会员类型" sortable ></el-table-column>
+					   <el-table-column prop="time" label="时间" sortable ></el-table-column>
 					</el-table>
 				</template>
 			</el-col>
 		</el-row>
+		<div  class="fls">
+	    <el-pagination
+	    	  v-if="state ==2"
+			  :page-size="goods_page.per_page"
+			   layout="prev, pager, next"
+			  :total="goods_page.total"
+			  :current-page.sync="goods_page.current_page"
+			  @current-change="handleCurrentChange">
+			</el-pagination>
+		</div>
 		
 		
 	</div>
@@ -64,6 +81,7 @@
 			  member:'',
 			  vip_data:[],
 			  user_data:[],
+			  goods_page:[],
 			  state:1,
 			  label:'',
 			  options: [{value: '1',label: '用户名'}, {value: '2',label: '会员类型'}],
@@ -82,7 +100,7 @@
 					this.$message({ message: '价格不能为空',type: 'warning' })
 				}
 				else{
-					this.$http.post(this.URL+'/index.php/api/geek_qt/vip',{
+					this.$http.post(this.URL+'/index.php/api/geek_set/vip',{
 						name:this.name,price:this.price})
 			    	.then((res)=>{
 			    		  this.name=''
@@ -92,36 +110,65 @@
 			    	})
 		        }
 			},
-			user_query(){  //查询vip用户
-				
-			},
+			
 			display_vip(){ //遍历vip
-				this.$http.post(this.URL+'/index.php/api/geek_qt/display_vip')
+				this.$http.post(this.URL+'/index.php/api/geek_set/display_vip')
 		    	.then((res)=>{
 		    		 console.log(res.data)
 		    		 this.vip_data=res.data
 		    	})
 			},
 			display_user(){ //遍历vip用户
-				this.$http.post(this.URL+'/index.php/api/geek_qt/display_user')
+				this.$http.post(this.URL+'/index.php/api/geek_set/display_user')
+		    	.then((res)=>{
+		    		 console.log(res.data.data)
+		    		 this.user_data=res.data.data
+		    		 this.goods_page=res.data
+		    	})
+			},
+			user_query(){  //查询vip用户
+				this.$http.post(this.URL+'/index.php/api/geek_set/vip_user_query',{
+					classify:this.label,
+					input:this.username
+				})
 		    	.then((res)=>{
 		    		 console.log(res.data)
-		    		 this.user_data=res.data
+		    		 this.user_data=res.data.data
+		    	     this.goods_page=res.data
 		    	})
 			},
 			deletes(index,data){  //删除vip  
 		     	this.$confirm('确认删除吗') 
 		     	.then(_ => { 
-		     		console.log(index)
-		     		    this.$http.post(this.URL+"/index.php/api/geek_qt/delete_vip",{
+		     		console.log(data)
+		     		    this.$http.post(this.URL+"/index.php/api/geek_set/delete_vip",{
 		     		    	id:data.id
 		     		    }).then((res)=>{
 		     		    	console.log(res.data)
 		     		    	 if(res.data == 1){
 		     		    	 	this.vip_data.splice(index,1)
 		     		    	 	this.$message({message: '删除成功',type: 'success'});
-		     		    	 }else{
+		     		    	 }else if(res.data == 2){
 		     		    	  this.$message.error('删除失败');
+		     		    	 }else if(res.data == 3){
+		     		    	  this.$message.error('还有用户使用');
+		     		    	 }
+		     		    	
+		     		    })
+		     	})
+		       .catch(_ => {});
+		     },
+		     Lower_shelf(index,data){  //下架vip  
+		     	this.$confirm('确认下架吗') 
+		     	.then(_ => {
+		     		    this.$http.post(this.URL+"/index.php/api/geek_set/Lower_shelf",{
+		     		    	id:data.id
+		     		    }).then((res)=>{
+		     		    	 if(res.data == 1){
+		     		    	 	this.vip_data[index].state=2
+		     		    	 	this.$message({message: '已下架',type: 'success'});
+		     		    	 }else{
+		     		    	  this.$message.error('下架失败');
 		     		    	 }
 		     		    	
 		     		    })
@@ -134,7 +181,19 @@
 		       }else{
 		       	 this.state=1
 		       }
-		     }
+		     },
+     handleCurrentChange(){
+     //	console.log(this.goods_page.current_page)
+     	this.$http.post(this.URL+"/index.php/api/geek_set/display_user",{
+     		page:this.goods_page.current_page
+     	})
+     	.then((res)=>{
+     //   console.log(res.data.data)
+	        this.user_data=res.data.data
+     	})
+     	
+     	
+     }
 			
 			
 		}
@@ -152,5 +211,10 @@
 	}
 	.button{
 		width:104px;
+	}
+	.fls{
+		display: flex !important; 
+		justify-content: center !important;
+		z-index: 99;
 	}
 </style>

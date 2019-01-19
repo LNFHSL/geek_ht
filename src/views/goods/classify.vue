@@ -41,7 +41,11 @@ import { getList } from '@/api/table'
 	},
 	methods:{
 		 deletes(index,data){
-     	this.$confirm('确认删除吗') 
+     	this.$confirm('确认删除吗', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }) 
      	.then(_ => { 
      		    this.$http.post(this.URL+"/index.php/api/geek_ht/delete_classify",{
      		    	id:data.id
@@ -58,6 +62,10 @@ import { getList } from '@/api/table'
        .catch(_ => {});
      },
      sub(){
+     	if(this.input == ''){
+     		this.$message.error('不能为空');
+     	}
+     	else{
      	this.$http.post(this.URL+"/index.php/api/geek_ht/add_classify",{
      		    	input:this.input
      		    }).then((res)=>{
@@ -67,7 +75,8 @@ import { getList } from '@/api/table'
 	 					}) 	
      		    })
      	this.input='';	    
-     }
+        }
+      }
 	}
 		
 		
@@ -76,7 +85,7 @@ import { getList } from '@/api/table'
  }
 </script>
 
-<style>
+<style scope>
 	.head{
 		margin-top: 50px;
 		padding-left: 40px;
