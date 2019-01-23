@@ -24,10 +24,7 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
-  
   { path: '/headline/addType', component: () => import('@/views/headline/addType'), hidden: true },
-  
   {
     path: '/',
     component: Layout,
@@ -113,8 +110,7 @@ export const constantRouterMap = [
         component: () => import('@/views/headline/change'),
         hidden: true,
         meta: { title: '分类', icon: 'fl' }
-      },
-      
+      }
     ]
   },
 
@@ -146,7 +142,7 @@ export const constantRouterMap = [
       }
     ]
   },
-  {//通告管理
+  {// 通告管理
     path: '/notice',
     component: Layout,
     meta: { title: '通告管理', icon: 'tggl' },
@@ -169,18 +165,15 @@ export const constantRouterMap = [
         component: () => import('@/views/notice/report'),
         meta: { title: '通告举报管理', icon: 'jb' }
       },
-       {
+      {
         path: 'add_report',
         name: '发布通告',
         component: () => import('@/views/notice/add_report'),
         meta: { title: '发布通告', icon: 'fb' }
-      },
-      
-      
-      
+      }
     ]
   },
-  {  //首页推荐
+  { // 首页推荐
     path: '/home',
     component: Layout,
     meta: { title: '首页推荐', icon: 'sy2' },
@@ -227,80 +220,8 @@ export const constantRouterMap = [
       }
 
     ]
-  },
-  { // 用户管理
-    path: '/user',
-    component: Layout,
-    redirect: '/user/user',
-    name: 'User',
-    meta: { title: '用户管理', icon: 'user' },
-    children: [
-      {
-        path: 'user',
-        name: 'User',
-        component: () => import('@/views/user/user'),
-        meta: { title: '用户管理', icon: 'yh2' }
-      },
-      {
-        path: 'children',
-        name: 'Children',
-        component: () => import('@/views/user/children'),
-        meta: { title: '童星萌娃管理', icon: 'user' }
-      },
-      {
-        path: 'cash',
-        name: 'Cash',
-        component: () => import('@/views/user/cash'),
-        meta: { title: '提现管理', icon: 'tx' }
-      },
-      {
-        path: 'feedback',
-        name: 'Feedback',
-        component: () => import('@/views/user/feedback'),
-        meta: { title: '反馈管理', icon: 'fk' }
-      },
-      {
-        path: 'children_details',
-        name: 'Children_details',
-        component: () => import('@/views/user/children_details'),
-        meta: { title: '儿童详情', icon: 'fk' },
-        hidden: true
-      },
-      {
-        path: 'user_edit',
-        name: 'user_edit',
-        component: () => import('@/views/user/user_edit'),
-        meta: { title: '用户编辑', icon: 'fk' },
-        hidden: true
-      }
-
-    ]
-  },
-  { // 设置
-    path: '/set',
-    component: Layout,
-    redirect: '/set/index',
-    name: 'Set',
-    meta: { title: '设置', icon: 'sz' },
-    children: [
-      {
-		path: 'site_title',
-		name: 'Site_title',
-		component: () => import('@/views/set/site_title'),
-		meta: { title: '站点标题', icon: 'zd' }
-	  },
-	  {
-		path: 'vip_price',
-		name: 'Vip_price',
-		component: () => import('@/views/set/Vip_price'),
-		meta: { title: 'vip管理', icon: 'vip' }
-	  },
-      
-
-    ]
-  },
-
-  { path: '*', redirect: '/404', hidden: true }
+  }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({
@@ -308,3 +229,30 @@ export default new Router({
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
+
+export const asyncRouterMap = [
+  
+  { // 设置
+    path: '/set',
+    component: Layout,
+    redirect: '/set/index',
+    name: 'Set',
+    meta: { title: '设置', icon: 'sz', roles: ['admin', 'editor'] },
+    children: [
+      {
+        path: 'site_title',
+        name: 'Site_title',
+        component: () => import('@/views/set/site_title'),
+        meta: { title: '站点标题', icon: 'zd' }
+      },
+      {
+        path: 'vip_price',
+        name: 'Vip_price',
+        component: () => import('@/views/set/Vip_price'),
+        meta: { title: 'vip管理', icon: 'vip' }
+      }
+    ]
+  },
+ 
+  // { path: '*', redirect: '/404', hidden: true }
+]
