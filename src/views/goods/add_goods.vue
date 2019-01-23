@@ -80,6 +80,7 @@ export default {
             response: (res) => {
             	console.log(res.url)
               return res.url
+
             }
           },
           toolbar: {

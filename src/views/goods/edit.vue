@@ -57,8 +57,9 @@ export default {
   data() {
     return {
     name:'',
+    id:'',
     integral:'',
-    classify:'',
+    classify:7,
     options:[],
     content:'',
     editorOption:{},
@@ -91,19 +92,21 @@ export default {
   created() {
     this.$http.post(this.URL+"/index.php/api/geek_ht/classify")
     .then((res)=>{
+    	console.log(res.data)
             this.options=res.data
 	 	})
     
-      	var id = this.$route.query.id 
+      	this.id = this.$route.query.id 
   	//分类
     this.$http.post(this.URL+"/index.php/api/geek_ht/query_modify",{
-    	id:id
+    	id:this.id
     })
     .then((res)=>{
+    	console.log(res.data[0])
          this.name=res.data[0].name,
          this.integral=res.data[0].integral,
          this.stock=res.data[0].stock,
-         this.classify=res.data[0].classify,
+//       this.classify=res.data[0].classify,
          this.imageUrl=res.data[0].image,
          this.content=res.data[0].details
          
@@ -157,10 +160,11 @@ export default {
       	 else{
       	 		console.log(this.integral)
       	 	 this.$http.post(this.URL+"/index.php/api/geek_ht/up_goods",{
+      	 	 	id:this.id,
       	 	 	name:this.name,
       	 	 	integral:this.integral,
       	 	 	image:this.imageUrl,
-      	 	  classify:this.classify,
+//    	 	  classify:this.classify,
       	 	 	stock:this.stock,
       	 	 	details:this.content
       	 	 })

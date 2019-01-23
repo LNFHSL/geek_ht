@@ -49,7 +49,7 @@
 					<el-table :data="user_data" border style="width: 100%" >
 					   <el-table-column prop="username" label="用户名" ></el-table-column>
 					   <el-table-column prop="name" label="会员类型" sortable ></el-table-column>
-					   <el-table-column prop="time" label="时间" sortable ></el-table-column>
+					   <el-table-column prop="time" label="开通时间" sortable ></el-table-column>
 					</el-table>
 				</template>
 			</el-col>
@@ -138,7 +138,11 @@
 		    	})
 			},
 			deletes(index,data){  //删除vip  
-		     	this.$confirm('确认删除吗') 
+		     	this.$confirm('确认删除吗', '提示', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning'
+			        }) 
 		     	.then(_ => { 
 		     		console.log(data)
 		     		    this.$http.post(this.URL+"/index.php/api/geek_set/delete_vip",{
@@ -159,7 +163,11 @@
 		       .catch(_ => {});
 		     },
 		     Lower_shelf(index,data){  //下架vip  
-		     	this.$confirm('确认下架吗') 
+		     	this.$confirm('确认下架吗', '提示', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning'
+			        }) 
 		     	.then(_ => {
 		     		    this.$http.post(this.URL+"/index.php/api/geek_set/Lower_shelf",{
 		     		    	id:data.id

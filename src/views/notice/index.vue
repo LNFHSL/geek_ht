@@ -111,7 +111,9 @@ export default {
         this.total = res.data.total
         this.currentPage = res.data.current_page
         for (var n = 0; n < this.msg.length; n++) {
+        	
           this.msg[n]['thumb'] =this.msg[n]['thumb']
+
           if (this.msg[n]['is_pay'] == 0) {
             this.msg[n]['is_pay'] = '未支付'
           }
@@ -125,7 +127,11 @@ export default {
       this.$router.push({ path: '/headline/change', query: { id: e }})
     },
     delHeadline(e) {
-      this.$confirm('确定删除该条数据吗？').then(_ => {
+      this.$confirm('确定删除该条数据吗？', '提示', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning'
+			        }).then(_ => {
         this.$http.post(this.URL + '/index.php/api/headline/delHeadline', {
           id: e
         }).then((res) => {
@@ -166,6 +172,7 @@ export default {
           this.currentPage = res.data.current_page
           for (var n = 0; n < this.msg.length; n++) {
             this.msg[n]['thumb'] =this.msg[n]['thumb']
+
             if (this.msg[n]['is_pay'] == 0) {
               this.msg[n]['is_pay'] = '未支付'
             }
@@ -210,7 +217,11 @@ export default {
       })
     },
     delNotice(id) {
-      this.$confirm('确认删除该通告吗？').then(_ => {
+      this.$confirm('确认删除该通告吗？', '提示', {
+			          confirmButtonText: '确定',
+			          cancelButtonText: '取消',
+			          type: 'warning'
+			        }).then(_ => {
         this.$http.post(this.URL + '/index.php/api/notice/delNotice', {
           id: id
         }).then((res) => {

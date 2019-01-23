@@ -161,13 +161,19 @@ export const constantRouterMap = [
         path: 'type',
         name: '通告管理',
         component: () => import('@/views/notice/type'),
-        meta: { title: '活动类型管理', icon: 'fl' }
+        meta: { title: '通告活动类型管理', icon: 'fl' }
       },
       {
         path: 'report',
         name: '通告举报管理',
         component: () => import('@/views/notice/report'),
         meta: { title: '通告举报管理', icon: 'jb' }
+      },
+       {
+        path: 'add_report',
+        name: '发布通告',
+        component: () => import('@/views/notice/add_report'),
+        meta: { title: '发布通告', icon: 'fb' }
       },
       
       
@@ -225,10 +231,16 @@ export const constantRouterMap = [
   { // 用户管理
     path: '/user',
     component: Layout,
-    redirect: '/user/children',
+    redirect: '/user/user',
     name: 'User',
     meta: { title: '用户管理', icon: 'user' },
     children: [
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import('@/views/user/user'),
+        meta: { title: '用户管理', icon: 'yh2' }
+      },
       {
         path: 'children',
         name: 'Children',
@@ -252,6 +264,13 @@ export const constantRouterMap = [
         name: 'Children_details',
         component: () => import('@/views/user/children_details'),
         meta: { title: '儿童详情', icon: 'fk' },
+        hidden: true
+      },
+      {
+        path: 'user_edit',
+        name: 'user_edit',
+        component: () => import('@/views/user/user_edit'),
+        meta: { title: '用户编辑', icon: 'fk' },
         hidden: true
       }
 

@@ -65,7 +65,7 @@ export default {
 //  	       for(var i=0;i<res.data.length;i++){
 //  	       	res.data[i]['image']=this.URL+res.data[i]['image']
 //  	       }
- 	         console.log(res.data)
+ 	         console.log(res.data.data)
 	 						this.goods=res.data.data
 	 						this.goods_page=res.data
 	 				})

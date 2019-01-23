@@ -189,7 +189,7 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log([res, file])
       this.img = res.url
-      this.imageUrl = this.URL + res.url
+      this.imageUrl =  res.url
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
