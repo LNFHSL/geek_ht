@@ -1,7 +1,7 @@
 <template>
 	<div class="Announcement_app">
 		<el-row>
-		    <el-col :span="24" class="head">
+		    <el-col :span="24" class="head_two">
 		    	 <el-button type="primary" v-if="state == 1" round @click="change(1)">已推荐通告</el-button>
 		    	 <el-button type="primary" v-if="state == 2" round @click="change(2)">推荐通告</el-button>
 		  	</el-col>
@@ -225,7 +225,7 @@
 .Announcement_app{
 	margin: 0 60px;
 }
-.head{
+.head_two{
 	padding-bottom: 15px;
 	padding-top: 15px;
 }	

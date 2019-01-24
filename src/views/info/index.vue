@@ -7,7 +7,7 @@
 		  <el-col :span="24"><el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="content"></el-input></el-col>
 		</el-row>
 		<el-row>
-		  <el-col :span="24"><el-button type="primary" class="tj" @click="info">提交</el-button></el-col>
+		  <el-col :span="24"><el-button type="primary" class="tjs" @click="info">提交</el-button></el-col>
 		</el-row>
 		<el-row>
 		  <el-col :span="24" class="content">
@@ -96,7 +96,7 @@
 .app{
 	margin: 0 100px;
 }
-.tj{
+.tjs{
 	float: right;
 }
 .el-row{

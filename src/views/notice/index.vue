@@ -69,7 +69,7 @@
         @current-change="handleCurrentChange"
       />
     </div>
-    <el-dialog :visible.sync="dialog" >
+    <el-dialog :visible.sync="dialog"  width="65%">
       <el-table :data="baby">
         <el-table-column prop="id" label="萌娃ID"/>
         <el-table-column label="头像">

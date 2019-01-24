@@ -8,6 +8,7 @@ import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
 
+
 import App from './App'
 import router from './router'
 import store from './store'
@@ -19,9 +20,9 @@ import axios from 'axios'
 
 Vue.prototype.URL='http://localhost/laravel/public'
 axios.defaults.baseURL='http://localhost/laravel/public'
-//Vue.prototype.URL = 'http://localhost/geek/public'
+// Vue.prototype.URL = 'http://localhost/geek/public'
 
-//Vue.prototype.URL = 'http://www.aoyuankj.com/geek/public'
+// Vue.prototype.URL = 'http://www.aoyuankj.com/geek/public'
 
 Vue.prototype.$apiURL = axios.defaults.baseURL
 Vue.prototype.$http=axios 

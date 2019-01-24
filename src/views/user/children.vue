@@ -9,7 +9,7 @@
 	    	<el-input v-if="state== 2" v-model="name" placeholder="请输入萌娃名称"></el-input>
 	    </el-col>
 	    <el-col :span="6">
-	    	<el-button v-if="state== 2" type="primary" @click="search" >主要按钮</el-button>
+	    	<el-button v-if="state== 2" type="primary" @click="search" >查询</el-button>
 	    </el-col>
   	</el-row>
   	
@@ -21,7 +21,7 @@
 		    	
 		    	<template   slot-scope="scope">            
 			           <img :src="scope.row.headpic"  min-width="68" height="68" />
-			      </template>
+			    </template>
 			      
 		    </el-table-column>
 		    	

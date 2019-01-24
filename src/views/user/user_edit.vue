@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import imgs from '../../components/upimage'	
+import imgs from '../../components/upimage_two'	
 	export default{
 		components:{
 			imgs
@@ -90,7 +90,7 @@ import imgs from '../../components/upimage'
 		},
 		methods:{
 			receive_img(data){ //子组件拿的图片
-			 this.img=data
+			 this.image=data
 			},
 			returns(){
 				this.$router.go(-1)
@@ -111,7 +111,8 @@ import imgs from '../../components/upimage'
 				            image:this.image
 						}).then(res=>{
 							if(res.data== 1){
-								      this.$message({ message: '提交成功', type: 'success'});
+								this.$message({ message: '提交成功', type: 'success'}); 
+								 setTimeout(() => {this.$router.go(-1)}, 500)      
 							}else{
 								this.$message.error('提交失败');
 							}

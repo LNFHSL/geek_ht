@@ -16,6 +16,7 @@
   "dependencies": {
     "axios": "0.18.0",
     "element-ui": "2.4.6",
+    "file-saver": "^2.0.0",
     "js-cookie": "2.2.0",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
@@ -23,7 +24,8 @@
     "vue": "2.5.17",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "3.0.1",
-    "vuex": "3.0.1"
+    "vuex": "3.0.1",
+    "xlsx": "^0.14.1"
   },
   "devDependencies": {
     "autoprefixer": "8.5.0",

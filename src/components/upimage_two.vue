@@ -7,7 +7,8 @@
           :before-upload="beforeAvatarUpload"
           class="avatar-uploader">
           <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          <img v-if="imageUrl=='' && image" :src="image" class="avatar">
+          <i v-if="imageUrl=='' && image==''" class="el-icon-plus avatar-uploader-icon"/>
         </el-upload>
 	</div>
 </template>
@@ -42,6 +43,9 @@
 		      }
 		      return isJPG && isLt2M
 		    },
+		},
+		props:{
+			image:String
 		}
 		
 	}
