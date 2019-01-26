@@ -29,39 +29,57 @@
 				    <el-table-column align="center" label="其他">
 				    	<template slot-scope="scope">
 					        <el-button size="mini" type="primary" @click="handleEdit(scope.row,1)" >其他</el-button>
-					        <el-button size="mini" type="primary" @click="handleEdit(scope.row,2)" >查看报名</el-button>
+					        <el-button size="mini" type="primary" @click="handleEdits(scope.row,2)" >查看报名</el-button>
 			            </template>
 				    </el-table-column>
 				</el-table> 
 		    </el-col>
 		</el-row>
-		<el-dialog title="详情"  :visible.sync="dialogVisible" width="50%"><!-- 详情 -->
-		    <el-row   type="flex" class="row-bg" justify="end">
-			    <el-col :span="12" v-if="state_two==1">
-			    	<el-row>
-						<el-col :span="12" >名额数量</el-col>
-						<el-col :span="12">{{details.people}}人</el-col>
-					</el-row>
-			    </el-col>
-			    <el-col :span="12" v-if="state_two==1">
-			    	<el-row>
-						<el-col :span="10" >年龄</el-col>
-						<el-col v-if="details.allAge" :span="12">{{details.allAge}}</el-col>
-						<el-col v-if="details.ageStar" :span="4">{{details.ageStar}}cm</el-col>
-						<el-col v-if="details.ageStar" :span="2">—</el-col>
-						<el-col v-if="details.ageEnd" :span="4">{{details.ageEnd}}cm</el-col>
-					</el-row>
-			    </el-col>
-			</el-row>
-			
-		    <el-row v-if="state_two==1">
+		<el-dialog title="其他"  :visible.sync="dialogVisible" width="50%"><!-- 其他详情 -->
+			<div v-if="state_two==1">  <!-- 其他 -->
+				<el-row   type="flex" class="row-bg" justify="end" :span="12" >
+				    <el-col >
+				    	<el-row>
+							<el-col :span="6" >名额数量</el-col>
+							<el-col :span="12">{{details.people}}人</el-col>
+						</el-row>
+				    </el-col>
+				    <el-col :span="12" >
+				    	<el-row>
+							<el-col :span="10" >年龄</el-col>
+							<el-col v-if="details.allAge" :span="12">{{details.allAge}}</el-col>
+							<el-col v-if="details.ageStar" :span="4">{{details.ageStar}}cm</el-col>
+							<el-col v-if="details.ageStar" :span="2">—</el-col>
+							<el-col v-if="details.ageEnd" :span="4">{{details.ageEnd}}cm</el-col>
+						</el-row>
+				    </el-col>
+			    </el-row>
+		    <el-row >
 			    <el-col :span="24" class="details_bt">活动详情</el-col>
 			    <el-col :span="24">{{details.content}}</el-col>
 			</el-row>
+			</div>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button class="right" type="primary" @click="dialogVisible = false">确定</el-button>
 		    </span>
 		</el-dialog>
+		<el-dialog title="报名"  :visible.sync="dialogVisible2" width="70%"><!-- 报名详情 -->
+		    <div v-if="state_two==2">
+		    	<el-table id="table" :data="enrolls" border style="width: 100%"> <!-- 导出 -->
+					<el-table-column align="center" prop="babyname" label="萌娃名称" ></el-table-column>
+					<el-table-column align="center" prop="username" label="用户昵称" ></el-table-column>
+					<el-table-column align="center" prop="mobile" label="用户电话" ></el-table-column>
+					<el-table-column align="center" prop="time" label="报名时间" ></el-table-column>
+				</el-table>
+		    </div>
+		    <span slot="footer" class="dialog-footer">
+		        <el-button class="right" type="primary" @click="dialogVisible2 = false">确定</el-button>
+		    </span>
+		</el-dialog>
+		
+		
+		
+		
 		<div  class="fls" v-if="state==1">   <!-- 分页 -->
 		    <el-pagination
 				  :page-size="goods_page.per_page"
@@ -97,7 +115,7 @@
 			<el-table-column align="center" prop="mobile" label="用户电话" ></el-table-column>
 			<el-table-column align="center" prop="connactName" label="活动联系人" ></el-table-column>
 			<el-table-column align="center" prop="connact" label="联系方式" ></el-table-column>
-			<el-table-column align="center" prop="time" label="购买时间" ></el-table-column>
+			<el-table-column align="center" prop="time" label="报名时间" ></el-table-column>
 		</el-table>
 
 		
@@ -117,10 +135,12 @@
 				value2:'',
 				tableData:[],
 				dialogVisible: false,
+				dialogVisible2:false,
 				excel:false,
 				details:[],
 				goods_page:[],
-				tableData_two:[]
+				tableData_two:[],
+				enrolls:[],
 				
 			}
 		},
@@ -166,8 +186,8 @@
 		    },
 			handleEdit(data,index){
 				this.dialogVisible=true
-				this.details=data
 				this.state_two=index
+				this.details=data
 			},
 			search(){
 				this.$http.post(this.URL + '/index.php/api/geek_notice/query_activitys',{
@@ -199,33 +219,35 @@
 				    values:this.value2
 				})
 				.then(res=>{
-					
 					this.tableData_two=res.data
-					setTimeout(() => {
-							if(this.tableData_two !=''){
+					if(this.tableData_two ==''){
+						  this.$message('没有人报名哦');
+					}
+					else{
+					    setTimeout(() => {
 							console.log(this.tableData_two)
 							  /* generate workbook object from table */
 					         var wb = XLSX.utils.table_to_book(document.querySelector('#table'))
 					         /* get binary string as output */
 					         var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
 					         try {
-					             FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '活动报名.xlsx')
+					             FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '活动报名表.xlsx')
 					         } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
-					         return wbout
-						     }
-						},500)
-					
+					         return wbout},500)
+					}
 				})
 				
-				
-	       
-
-				
-				
-				
-				
-				
+			},
+			handleEdits(data,index){
+				this.dialogVisible2=true
+				this.state_two=index
+				this.$http.post(this.URL + '/index.php/api/geek_notice/enroll',{
+					id:data.id
+				}).then(res=>{
+					this.enrolls=res.data
+				})
 			}
+			
 			
 
 		}
@@ -234,7 +256,7 @@
 
 <style>
 .activity_app{
-	margin: 20px 60px;
+	margin: 20px 20px;
 }
 .head{
 	margin-bottom: 10px;
