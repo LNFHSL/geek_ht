@@ -41,7 +41,7 @@
 	}
 </script>
 
-<style>
+<style scope>
 	.app{
 		margin: 10px 50px;
 	}

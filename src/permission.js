@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
           next()
         } else {
           next({ path: '/401', replace: true, query: { noGoBack: true }})
-}
+        }
       }
     }
   } else {

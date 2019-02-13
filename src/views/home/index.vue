@@ -6,7 +6,7 @@
         	    <el-upload class="avatar-uploader"  :action="action"
 	                :show-file-list="false" :on-success="handleAvatarSuccess"
 					:before-upload="beforeAvatarUpload">
-					<img v-if="imageUrl" :src="url+imageUrl" class="avatar">
+					<img v-if="imageUrl" :src="imageUrl" class="avatar">
 					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 			     </el-upload>
           </el-col>
@@ -83,7 +83,7 @@
 		      else if(this.route == ''){
 		      	 this.$message({message: '链接地址不能为空',type: 'warning'});
 		      }else{
-		      	this.$http.post(this.URL+'/index.php/api/geek_qt/send_slide',{
+		      	this.$http.post(this.URL+'/index.php/api/geek_set/send_slide',{
 		      		img:this.imageUrl,
 		      		route:this.route
 		      	}).then((res)=>{
@@ -95,12 +95,8 @@
 		      }
 		    },
 		    query(){
-		    	this.$http.post(this.URL+'/index.php/api/geek_qt/display_slide')
+		    	this.$http.post(this.URL+'/index.php/api/geek_set/display_slide')
 		    	.then((res)=>{
-		    		console.log(res.data)
-		    		for(var i=0;i<res.data.length;i++){
-	    	       	res.data[i]['img']=this.URL+res.data[i]['img']
-	    	       }
 		    		console.log(res.data)
 		    		this.slide=res.data
 		    	})
@@ -108,7 +104,7 @@
 		    deletes(index,data){
 		     	this.$confirm('确认删除吗') 
 		     	.then(_ => { 
-		     		    this.$http.post(this.URL+"/index.php/api/geek_qt/delete_slide",{
+		     		    this.$http.post(this.URL+"/index.php/api/geek_set/delete_slide",{
 		     		    	id:data.id
 		     		    }).then((res)=>{
 		     		    	 	this.slide.splice(index,1)
@@ -121,7 +117,7 @@
 	}
 </script>
 
-<style>
+<style scope>
 	.display{
 		margin-top: 30px;
 	}

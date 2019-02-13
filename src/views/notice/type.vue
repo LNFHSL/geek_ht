@@ -172,7 +172,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scope>
   .add{
     float: left;
     margin-top: 20px;

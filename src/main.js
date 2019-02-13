@@ -8,6 +8,7 @@ import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
 
+
 import App from './App'
 import router from './router'
 import store from './store'
@@ -16,10 +17,20 @@ import '@/icons' // icon
 import '@/permission' // permission control
 
 import axios from 'axios'
+<<<<<<< HEAD
 //axios.defaults.baseURL='http://localhost/laravel/public'
 Vue.prototype.URL = 'http://localhost/geek/public'
 axios.defaults.withCredentials=true;
 // Vue.prototype.URL = 'http://www.geekyiqi.com/geek/public'
+=======
+
+Vue.prototype.URL='http://localhost/laravel/public'
+axios.defaults.baseURL='http://localhost/laravel/public'
+// Vue.prototype.URL = 'http://localhost/geek/public'
+
+// Vue.prototype.URL = 'http://www.aoyuankj.com/geek/public'
+
+>>>>>>> 580d3bc9eb28baedcc84964e8048fbd771cfc068
 Vue.prototype.$apiURL = axios.defaults.baseURL
 Vue.prototype.$http=axios 
 

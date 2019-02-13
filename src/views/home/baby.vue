@@ -90,7 +90,7 @@ export default {
       })
     },
     showDetail(id) {
-      this.$router.push({ path: '/baby/detail', query: { id: id }})
+      this.$router.push({ path: '/home/detail', query: { id: id }})
     },
     changeRcmd(id, Recommend) {
       this.$http.post(this.URL + '/index.php/api/baby/changeRcmd', {
@@ -108,7 +108,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scope>
   .block{
     text-align: center;
     margin: 20px 0 20px 0;

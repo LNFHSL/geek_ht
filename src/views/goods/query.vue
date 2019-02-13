@@ -16,25 +16,25 @@
   	
     <el-table :data="goods" height="750" border style="width: 100%"  :default-sort = "{prop: 'name', order: 'ascending'}">
     	
-    <el-table-column prop="image"  label="图片"  width="160"> <img src="image"/>
+    <el-table-column align="center" prop="image"  label="图片"  width="160"> <img src="image"/>
 	       <template   slot-scope="scope">            
 	           <img :src="scope.row.image"  min-width="70" height="70" />
 	       </template>
     </el-table-column>
     	
-    <el-table-column prop="name" label="名称"    width="160"> </el-table-column>
+    <el-table-column align="center" prop="name" label="名称"    width="160"> </el-table-column>
     
-    <el-table-column  prop="integral"  label="积分" sortable width="160"></el-table-column>
+    <el-table-column align="center"  prop="integral"  label="积分" sortable width="160"></el-table-column>
     
-    <el-table-column  prop="classify"  label="分类"  width="160"></el-table-column>
+    <el-table-column align="center"  prop="classify"  label="分类"  width="160"></el-table-column>
     
-    <el-table-column prop="change" label="已兑换" sortable width="160"></el-table-column>
+    <el-table-column align="center" prop="change" label="已兑换" sortable width="160"></el-table-column>
     
-    <el-table-column prop="stock" label="库存" sortable width="160"></el-table-column>
+    <el-table-column align="center" prop="stock" label="库存" sortable width="160"></el-table-column>
     
-     <el-table-column prop="date" label="时间" sortable width="160"></el-table-column>
+     <el-table-column align="center" prop="date" label="时间" sortable width="160"></el-table-column>
     
-     <el-table-column label="操作" width="240">
+     <el-table-column align="center"  label="操作" width="170">
 	      <template slot-scope="scope">
 		        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
 		       <el-button size="mini" type="danger" @click="deletes(scope.$index, scope.row)">删除</el-button>
@@ -73,7 +73,11 @@ export default {
   },
   methods: {
      deletes(index,data){
-     	this.$confirm('确认删除吗') 
+     	this.$confirm('确认删除吗', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }) 
      	.then(_ => { 
      		    this.goods.splice(index,1)
      		    this.$http.post(this.URL+"/index.php/api/geek_ht/delete_goods",{
@@ -95,9 +99,9 @@ export default {
      		classify:this.classify
      	})
     .then((res)=>{
-    	       for(var i=0;i<res.data.length;i++){
-    	       	res.data[i]['image']=this.URL+res.data[i]['image']
-    	       }
+//  	       for(var i=0;i<res.data.length;i++){
+//  	       	res.data[i]['image']=this.URL+res.data[i]['image']
+//  	       }
 //  	         console.log(res.data)
 	 						this.goods=res.data
 	 						 this.$message({message: '查询完成',type: 'success'});
@@ -106,7 +110,7 @@ export default {
   }
 }
 </script>
-<style type="text/css">
+<style type="text/css" scope>
 .search{
 	margin: 30px 20px 30px 50px;
 }

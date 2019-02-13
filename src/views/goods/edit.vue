@@ -1,8 +1,5 @@
 <template>
   <div class="app">
-  	<el-row>
-  		<el-col :span="24"><div @click="returns"><svg-icon class="tb_tp" icon-class="fh"/></div></el-col>
-  	</el-row>
     <el-row>
     	  <el-col :span="24" class="tips">商品名称</el-col>
         <el-col :span="24"><el-input placeholder="商品名称" v-model="name" clearable></el-input></el-col>
@@ -17,7 +14,7 @@
         	  <el-upload class="avatar-uploader"  action="http://localhost/laravel/public/index.php/api/user/uploadJoinPic"
                  :show-file-list="false" :on-success="handleAvatarSuccess"
 								  :before-upload="beforeAvatarUpload">
-								  <img v-if="imageUrl" :src="url+imageUrl" class="avatar">
+								  <img v-if="imageUrl" :src="imageUrl" class="avatar">
 								  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 				    </el-upload>
         </el-col>
@@ -43,7 +40,8 @@
     	  </el-col>
 		</el-row>
 		<el-row>
-			 <el-col :span="2" class="button"> <el-button type="primary" @click="sub">更新</el-button></el-col>
+			 <el-col :span="2" class="button"> <el-button type="primary" @click="returns">返回</el-button></el-col>
+			  <el-col :span="2" class="button"> <el-button type="primary" @click="sub">更新</el-button></el-col>
 		</el-row>
   </div>
 </template>
@@ -59,8 +57,9 @@ export default {
   data() {
     return {
     name:'',
+    id:'',
     integral:'',
-    classify:'',
+    classify:7,
     options:[],
     content:'',
     editorOption:{},
@@ -75,7 +74,7 @@ export default {
               name: 'file',
               action:this.URL+'/index.php/api/user/uploadJoinPic',
               response: (res) => {
-                return this.URL+res.url
+                return res.url
               }
             },
             toolbar: {
@@ -93,19 +92,21 @@ export default {
   created() {
     this.$http.post(this.URL+"/index.php/api/geek_ht/classify")
     .then((res)=>{
+    	console.log(res.data)
             this.options=res.data
 	 	})
     
-      	var id = this.$route.query.id 
+      	this.id = this.$route.query.id 
   	//分类
     this.$http.post(this.URL+"/index.php/api/geek_ht/query_modify",{
-    	id:id
+    	id:this.id
     })
     .then((res)=>{
+    	console.log(res.data[0])
          this.name=res.data[0].name,
          this.integral=res.data[0].integral,
          this.stock=res.data[0].stock,
-         this.classify=res.data[0].classify,
+//       this.classify=res.data[0].classify,
          this.imageUrl=res.data[0].image,
          this.content=res.data[0].details
          
@@ -159,10 +160,11 @@ export default {
       	 else{
       	 		console.log(this.integral)
       	 	 this.$http.post(this.URL+"/index.php/api/geek_ht/up_goods",{
+      	 	 	id:this.id,
       	 	 	name:this.name,
       	 	 	integral:this.integral,
       	 	 	image:this.imageUrl,
-      	 	  classify:this.classify,
+//    	 	  classify:this.classify,
       	 	 	stock:this.stock,
       	 	 	details:this.content
       	 	 })

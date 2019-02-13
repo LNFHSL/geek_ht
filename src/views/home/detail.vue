@@ -97,7 +97,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scope>
 .container{
   width :500px;
   margin:auto;

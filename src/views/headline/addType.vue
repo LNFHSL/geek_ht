@@ -139,7 +139,7 @@
     }
   }
 </script>
-<style type="text/css">
+<style type="text/css" scope>
   .app{
     margin: 0 100px;
   }

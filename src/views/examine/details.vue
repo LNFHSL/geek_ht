@@ -50,7 +50,7 @@
 			  <el-col :span="6"><div class="grid">营业执照</div></el-col>
 			</el-row>
 			<el-row type="flex" class="row-bg" justify="space-around"  >
-				<el-col :span="6" v-for="item in list.imgs" align="center"><img class="img" :src="url+item.url"/></el-col>
+				<el-col :span="6" v-for="item in list.imgs" align="center"><img class="img" :src="item.url"/></el-col>
 			</el-row>
 		</div>
 		<el-row>

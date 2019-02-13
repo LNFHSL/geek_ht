@@ -2,17 +2,17 @@
   <div class="app-container">
     <el-table :data="goods" height="750" border style="width: 100%"  :default-sort = "{prop: 'name', order: 'ascending'}">
     	
-    <el-table-column prop="shopname"  label="商家名称"  width="260"></el-table-column>
+    <el-table-column align="center" prop="shopname"  label="商家名称"  width="260"></el-table-column>
     	
-    <el-table-column prop="contacter" label="联系人"    width="180"> </el-table-column>
+    <el-table-column align="center" prop="contacter" label="联系人"    width="180"> </el-table-column>
     
-    <el-table-column  prop="contacttel"  label="电话"  width="180"></el-table-column>
+    <el-table-column align="center"  prop="contacttel"  label="电话"  width="180"></el-table-column>
     
-    <el-table-column  prop="students"  label="生源数量" sortable  width="180"></el-table-column>
+    <el-table-column align="center"  prop="students"  label="生源数量" sortable  width="180"></el-table-column>
     
-     <el-table-column prop="date" label="时间" sortable width="180"></el-table-column>
+     <el-table-column align="center" prop="date" label="时间" sortable width="180"></el-table-column>
     
-     <el-table-column label="操作">
+     <el-table-column align="center" label="操作">
 	      <template slot-scope="scope">
 		        <el-button size="mini" type="primary" @click="handleEdit(scope.row)" plain>详情</el-button>
 		        <el-button size="mini" type="success" @click="choice(scope.$index, scope.row,1)">通过</el-button>
@@ -52,7 +52,11 @@ export default {
   methods: {
      choice(index,data,state){
      	if(state==1){
-     		this.$confirm('确认通过吗') 
+     		this.$confirm('确认通过吗', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'success'
+        }) 
 		     	.then(_ => {
 		     		 this.$http.post(this.URL+"/index.php/api/geek_qt/operation",{
 		     		 	state:state,id:data.id,uid:data.uid,type:data.type
@@ -69,7 +73,11 @@ export default {
 		      .catch(_ => {});
 		     }
 		  if(state==2){
-		    this.$confirm('确认未通过吗') 
+		    this.$confirm('确认未通过吗', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }) 
 		     	.then(_ => {
 			     		 this.$http.post(this.URL+"/index.php/api/geek_qt/operation",{
 			     		 	state:state,id:data.id,uid:data.uid,type:data.type
