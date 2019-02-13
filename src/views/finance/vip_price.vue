@@ -2,8 +2,9 @@
 	<div class="apps">
 		<!-- vip -->
 	    <el-row :gutter="20" v-if="state ==1" >
-		  <el-col :span="8"><el-input v-model="name" placeholder="vip的名字，例如vip、svip" ></el-input></el-col>
-		  <el-col :span="8"><el-input v-model="price" placeholder="价格" oninput ="value=value.replace(/[^\d.]/g,'')"></el-input></el-col>
+		  <el-col :span="5"><el-input v-model="name" placeholder="vip的名字，例如vip、svip" ></el-input></el-col>
+		  <el-col :span="4"><el-input v-model="price" @blur="prices" placeholder="价格" ></el-input></el-col>
+		  <el-col :span="7"><el-input v-model="discount" @blur="discounts" placeholder="优惠额度,例如0.8则为8折" ></el-input></el-col>
 		  <el-col :span="4"><el-button type="primary" @click="vip">提交</el-button></el-col>
 		  <el-col :span="4"><el-button type="primary" @click="View_members(state)" round>查看会员</el-button></el-col>
 		</el-row>
@@ -12,15 +13,16 @@
 			<el-col :span="24">
 				<template>
 					<el-table :data="vip_data" border style="width: 100%">
-					   <el-table-column prop="name" label="名字" ></el-table-column>
-					   <el-table-column prop="price" label="价格/￥" ></el-table-column>
-					   <el-table-column  label="状态" >
+					   <el-table-column align="center" prop="name" label="名字" width="200" ></el-table-column>
+					   <el-table-column align="center" prop="price" label="价格/￥" ></el-table-column>
+					   <el-table-column align="center" prop="discount" label="折扣力度" ></el-table-column>
+					   <el-table-column align="center"  label="状态" >
 					   	    <template slot-scope="scope">
 								<el-button size="mini" type="success" v-if="scope.row.state == 1">售卖</el-button>
 								<el-button size="mini" type="danger"  v-if="scope.row.state == 2">下架</el-button>
 							</template>
 					   </el-table-column>
-					   <el-table-column label="操作" >
+					   <el-table-column label="操作" align="center" width="200">
 					   	  <template slot-scope="scope">
 						        <el-button size="mini" type="danger" @click="deletes(scope.$index, scope.row)">删除</el-button>
 						        <el-button size="mini" type="warning" @click="Lower_shelf(scope.$index, scope.row)" v-if="scope.row.state == 1">下架</el-button>
@@ -79,6 +81,7 @@
 			  price:'',
 			  username:'',
 			  member:'',
+			  discount:'',
 			  vip_data:[],
 			  user_data:[],
 			  goods_page:[],
@@ -99,12 +102,17 @@
 				else if(this.price == ''){
 					this.$message({ message: '价格不能为空',type: 'warning' })
 				}
+				else if(this.discount == ''){
+					this.$message({ message: '折扣不能为空',type: 'warning' })
+				}
 				else{
 					this.$http.post(this.URL+'/index.php/api/geek_set/vip',{
-						name:this.name,price:this.price})
+						name:this.name.toUpperCase(),price:this.price,discount:this.discount
+					})
 			    	.then((res)=>{
 			    		  this.name=''
 			    		  this.price=''
+			    		  this.discount=''
 			    		  this.$message({showClose: true,message: '提交成功',type: 'success' })
 			    		  this.display_vip()
 			    	})
@@ -115,6 +123,9 @@
 				this.$http.post(this.URL+'/index.php/api/geek_set/display_vip')
 		    	.then((res)=>{
 		    		 console.log(res.data)
+		    		 for(let i=0;i<res.data.length;i++){
+		    		 	res.data[i].discount=res.data[i].discount*100+"%"
+		    		 }
 		    		 this.vip_data=res.data
 		    	})
 			},
@@ -183,28 +194,37 @@
 		     	})
 		       .catch(_ => {});
 		     },
-		     View_members(state){
+		    View_members(state){
 		       if(state==1){
 		       	   this.state=2
 		       }else{
 		       	 this.state=1
 		       }
 		     },
-     handleCurrentChange(){
-     //	console.log(this.goods_page.current_page)
-     	this.$http.post(this.URL+"/index.php/api/geek_set/display_user",{
-     		page:this.goods_page.current_page
-     	})
-     	.then((res)=>{
-     //   console.log(res.data.data)
-	        this.user_data=res.data.data
-     	})
-     	
-     	
-     }
+		    handleCurrentChange(){
+			     //	console.log(this.goods_page.current_page)
+			     	this.$http.post(this.URL+"/index.php/api/geek_set/display_user",{
+			     		page:this.goods_page.current_page
+			     	})
+			     	.then((res)=>{
+			     //   console.log(res.data.data)
+				        this.user_data=res.data.data
+			     	})
+		    },
+		    prices(){
+		     	let reg=/\D/g;
+				if(reg.test(this.price)){ 
+					this.$message({ message: '只能输入数字',type: 'warning'});this.price=""}
+				
+		    },
+		    discounts(){
+		    	let reg=/\D./g;
+				if(reg.test(this.discount)){ 
+					this.$message({ message: '只能输入数字和一位小数点',type: 'warning'});this.discount=""}
+		    }
 			
 			
-		}
+	}
 		
 		
 	}

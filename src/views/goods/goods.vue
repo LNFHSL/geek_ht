@@ -61,10 +61,6 @@ export default {
   created() {
       this.$http.post(this.URL+"/index.php/api/geek_ht/display_goods")
     .then((res)=>{
-    	       
-//  	       for(var i=0;i<res.data.length;i++){
-//  	       	res.data[i]['image']=this.URL+res.data[i]['image']
-//  	       }
  	         console.log(res.data.data)
 	 						this.goods=res.data.data
 	 						this.goods_page=res.data
@@ -97,12 +93,10 @@ export default {
      	   this.$router.push({path: '/goods/edit',query:{id:id}})
      },
      handleCurrentChange(){
-     //	console.log(this.goods_page.current_page)
      	this.$http.post(this.URL+"/index.php/api/geek_ht/display_goods",{
      		page:this.goods_page.current_page
      	})
      	.then((res)=>{
-     //   console.log(res.data.data)
 	        this.goods=res.data.data
      	})
      }
