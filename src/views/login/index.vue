@@ -93,23 +93,16 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-        	this.loading = true;
-          this.$store
-            .dispatch("Login", this.loginForm)
-            .then(() => {
-              console.log('这里是handleLogin')
-              this.loading = false;
-              this.$router.push({ path: this.redirect || "/" });
-            })
-            .catch((error) => {
-              this.loading = false;
-              console.log(error)
-            });
-        	
-        	
-        	 
+          this.loading = true
+          this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          }).catch(() => {
+            this.loading = false
+          })
         } else {
           console.log('error submit!!')
+          return false
         }
       })
     }
