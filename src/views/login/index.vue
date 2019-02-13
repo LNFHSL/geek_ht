@@ -23,6 +23,8 @@
           <svg-icon icon-class="eye" />
         </span>
       </el-form-item>
+      <!-- <input type="text" v-model="loginForm.captcha">
+      <img src="http://localhost/geek/public/captcha/default" alt=""> -->
       <el-form-item>
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
           Sign in
@@ -59,12 +61,14 @@ export default {
     return {
       loginForm: {
         username: 'admin',
-        password: 'admin'
+        password: 'admin',
+        captcha:''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePass }]
       },
+      
       loading: false,
       pwdType: 'password',
       redirect: undefined
