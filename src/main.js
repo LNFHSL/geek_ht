@@ -17,10 +17,12 @@ import '@/icons' // icon
 import '@/permission' // permission control
 
 import axios from 'axios'
-axios.defaults.baseURL='http://localhost/geek/public'
-Vue.prototype.URL = 'http://localhost/geek/public'
+// axios.defaults.baseURL='http://localhost/geek/public'
+// Vue.prototype.URL = 'http://localhost/geek/public'
 axios.defaults.withCredentials=true;
-// Vue.prototype.URL = 'http://www.geekyiqi.com/geek/public'
+
+axios.defaults.baseURL='http://www.geekyiqi.com/geek/public'
+Vue.prototype.URL = 'http://www.geekyiqi.com/geek/public'
 Vue.prototype.$apiURL = axios.defaults.baseURL
 Vue.prototype.$http=axios 
 
