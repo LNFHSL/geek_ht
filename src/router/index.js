@@ -234,6 +234,22 @@ export const constantRouterMap = [
 
     ]
   },
+  { // 微信菜单
+    path: '/wechat_menu',
+    component: Layout,
+    redirect: '/wechat_menu',
+    name: 'Info',
+    meta: { title: '微信管理', icon: 'xx' },
+    children: [
+      {
+        path: 'wechat_menu',
+        name: 'wechat_menu',
+        component: () => import('@/views/info/wechat'),
+        meta: { title: '微信菜单', icon: 'fsxx' }
+      }
+
+    ]
+  },
   {   //用户管理
     path: '/user',
     component: Layout,
